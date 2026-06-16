@@ -1,0 +1,55 @@
+#!/usr/bin/env bash
+# Pre-commit hook: enforce file-name convention and that every staged problem
+# compiles. Enable once with:  git config core.hooksPath .githooks
+#
+# Bypass in an emergency with:  git commit --no-verify
+#
+# Portable: avoids `mapfile` (absent on macOS's bash 3.2); uses while-read.
+
+set -euo pipefail
+
+# valid topics come from topics.txt
+ROOT="$(git rev-parse --show-toplevel)"
+. "$ROOT/scripts/topics.sh"
+VALID="$(topic_regex)"
+NAME_RE="^problems/(${VALID})-[0-9]{3}-[a-z0-9-]+\.typ$"
+
+fail=0
+checked=0
+have_typst=0
+command -v typst >/dev/null 2>&1 && have_typst=1
+
+while IFS= read -r f; do
+  [ -z "$f" ] && continue
+  checked=1
+
+  if ! [[ "$f" =~ $NAME_RE ]]; then
+    echo "bad name: $f" >&2
+    echo "  expected: problems/[topic]-[###]-[slug].typ (topic: $VALID)" >&2
+    fail=1
+  fi
+
+  if [ "$have_typst" -eq 1 ] && [ -f "$f" ]; then
+    if ! typst compile --root . -f pdf "$f" - >/dev/null 2>/tmp/typst-err; then
+      echo "compile failed: $f" >&2
+      sed 's/^/    /' /tmp/typst-err >&2 || true
+      fail=1
+    fi
+  fi
+done < <(git diff --cached --name-only --diff-filter=ACMR \
+  | grep -E '^problems/.*\.typ$' \
+  | grep -vE '^problems/_TEMPLATE\.typ$' || true)
+
+if [ "$checked" -eq 0 ]; then
+  exit 0
+fi
+
+if [ "$have_typst" -eq 0 ]; then
+  echo "typst not installed, skipped compile check" >&2
+fi
+
+if [ "$fail" -ne 0 ]; then
+  echo "pre-commit blocked. fix above or use --no-verify." >&2
+  exit 1
+fi
+echo "pre-commit ok"

@@ -1,0 +1,67 @@
+name: ci
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+# Least privilege: CI only reads the repo (no writes needed).
+permissions:
+  contents: read
+
+env:
+  # Pin for reproducible builds. Bump deliberately.
+  TYPST_VERSION: "0.14.2"
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Check topic regions are in sync with topics.txt
+        run: make topics-check
+
+      - name: Check problem file names
+        run: |
+          fail=0
+          shopt -s nullglob
+          valid="$(bash scripts/topics.sh regex)"   # from topics.txt
+          for f in problems/*.typ; do
+            base=$(basename "$f")
+            [ "$base" = "_TEMPLATE.typ" ] && continue
+            if ! [[ "$base" =~ ^($valid)-[0-9]{3}-[a-z0-9-]+\.typ$ ]]; then
+              echo "::error file=$f::bad name '$base', expected [topic]-[###]-[slug].typ"
+              fail=1
+            fi
+          done
+          exit $fail
+
+  compile:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Typst
+        uses: typst-community/setup-typst@v4
+        with:
+          typst-version: ${{ env.TYPST_VERSION }}
+
+      - name: Check template compiles
+        run: make template-check
+
+      - name: Compile all problems
+        run: make all
+
+      - name: Check README index is in sync
+        run: |
+          sudo apt-get install -y jq >/dev/null
+          make index-check
+
+      - name: Upload PDFs
+        if: success()
+        uses: actions/upload-artifact@v4
+        with:
+          name: problem-pdfs
+          path: output/*.pdf
+          if-no-files-found: ignore
