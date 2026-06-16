@@ -1,0 +1,14 @@
+# Normalize line endings. Shell scripts and the git hook MUST stay LF, or they
+# break when cloned on Windows with core.autocrlf=true.
+* text=auto eol=lf
+
+*.sh text eol=lf
+.githooks/* text eol=lf
+Makefile text eol=lf
+*.typ text eol=lf
+
+# Binary assets, never normalize.
+*.pdf binary
+*.png binary
+*.jpg binary
+*.gif binary
