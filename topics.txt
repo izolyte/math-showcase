@@ -1,0 +1,14 @@
+# Topic prefixes. Format: <prefix><spaces><name>. Blank lines and # are ignored.
+# new-problem.sh, the pre-commit hook, and CI read this. After editing, run
+# `make topics` to update the tables in the README and docs.
+
+calc        Calculus
+linalg      Linear Algebra
+alg         Abstract Algebra
+analysis    Real Analysis
+complex     Complex Analysis
+nt          Number Theory
+combo       Combinatorics
+prob        Probability
+topo        Topology
+ode         Differential Equations
