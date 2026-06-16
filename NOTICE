@@ -1,0 +1,34 @@
+math-showcase - copyright and licensing
+Copyright (c) 2026 Chayanon Somatanai (Izolyte)
+
+There are three kinds of material in this repository, licensed differently.
+
+1. Written content: the solutions, proofs, and explanations (the prose in
+   problems/*.typ and docs/).
+   Licensed under Creative Commons Attribution 4.0 International (CC BY 4.0).
+   Full text in ./LICENSE, or https://creativecommons.org/licenses/by/4.0/
+
+2. Code: the Typst templates and environments (src/), the scripts (scripts/),
+   the Makefile, and the CI config.
+   Licensed under MIT. Full text in ./LICENSE-CODE.
+
+3. Problem statements taken from other sources (textbooks, competitions, Stack
+   Exchange, and so on). These belong to their original sources, not to this
+   repository, and each problem file cites where it came from in its metadata
+   (source, source_url, source_license). Mathematical facts like equations,
+   theorems, and definitions aren't copyrightable; CC BY 4.0 covers the way each
+   solution is written, not the math itself.
+
+Attribution: when you reuse the written content, credit "Chayanon Somatanai
+(Izolyte)", link to the CC BY 4.0 license, and note any changes. For example:
+
+    "<solution title>" by Chayanon Somatanai (Izolyte), licensed under CC BY 4.0.
+    Source: https://github.com/Izolyte/math-showcase
+
+If you reuse a problem statement (not just the solution), credit that problem's
+original source too, as cited in its file.
+
+Stack Exchange: content there is CC BY-SA 4.0 (share-alike). Where a problem
+comes from Stack Exchange its file records source_license: "CC BY-SA 4.0". The
+solutions here are written independently and aren't derived from any Stack
+Exchange answer text, so they stay under CC BY 4.0.
