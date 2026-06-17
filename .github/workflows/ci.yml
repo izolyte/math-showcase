@@ -47,6 +47,11 @@ jobs:
         with:
           typst-version: ${{ env.TYPST_VERSION }}
 
+      # Thai serif faces (Norasi et al.) for bilingual problem files. Without
+      # this, Thai text still "compiles" but renders as blank tofu boxes.
+      - name: Install Thai fonts
+        run: sudo apt-get update && sudo apt-get install -y fonts-thai-tlwg
+
       - name: Check template compiles
         run: make template-check
 

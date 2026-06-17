@@ -21,7 +21,12 @@
   // typography
   // "New Computer Modern" ships bundled with Typst, so CI and local builds
   // match without installing system fonts. Libertinus Serif is a safe fallback.
-  font: ("New Computer Modern", "Libertinus Serif"),
+  // Latin + math glyphs resolve from the first two; the Thai serif faces only
+  // kick in per-glyph for Thai text (bilingual problem files). Norasi ships in
+  // the `fonts-thai-tlwg` package CI installs; Leelawadee / Tahoma cover local
+  // Windows builds. A missing face in this list is skipped with a harmless
+  // warning, never a compile failure.
+  font: ("New Computer Modern", "Libertinus Serif", "Norasi", "Leelawadee", "Tahoma"),
   size: 11pt,
 )
 

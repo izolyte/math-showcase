@@ -60,6 +60,24 @@ You don't pick the number yourself - `make new T=<topic> S=<slug>` finds the
 next free one and copies the template. The pre-commit hook and CI reject any
 file in `problems/` that doesn't match the pattern (`_TEMPLATE.typ` is exempt).
 
+### Bilingual (Thai) siblings
+
+A problem can have a Thai-language sibling. It is a separate file (one language
+per file, like one problem per file) that **shares the English file's number**
+and appends `-th` to the slug:
+
+```
+calc-001-gamma-integral.typ        English (primary, write first)
+calc-001-gamma-integral-th.typ     Thai sibling, same problem, same number
+```
+
+The `-th` form still matches the file-name pattern (`-th` is part of the slug),
+so no script or CI change is needed. The Thai file does **not** get a new
+number from `make new`; copy the English file and rename it by hand. Thai
+rendering relies on the Thai serif faces in the font fallback
+(see [`../src/style.typ`](../src/style.typ)); CI installs them via
+`fonts-thai-tlwg`.
+
 ## Branches
 
 ```
@@ -101,6 +119,16 @@ refs(nt): missing number theory prerequisite links
 ```
 
 `template` and repo-wide `refs` changes can drop the `(<topic>-<###>)` part.
+
+## Sourcing results
+
+A hard invariant for every solution: **any result used but not proved in the
+file must be traceable.** A named theorem, rule, or technique you invoke without
+proving carries a reference the reader can follow — `cite(name, url: ...)` for an
+online source or `cite(name, ref: [Book, §x])` for an offline one. Steps that
+follow from earlier lines or your own algebra need no citation; elementary
+background (commutativity, basic arithmetic) is assumed, not cited. A `cite` with
+no source renders a red `[ref?]` marker so the gap is caught before shipping.
 
 ## Workflow
 
