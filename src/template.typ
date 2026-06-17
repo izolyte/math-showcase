@@ -19,9 +19,7 @@
   author: default-author,
   subtitle: none,
   date: none,
-  difficulty: none,
   tags: (),
-  summary: none,
   prerequisites: (),
   resources: (),
   theme: (:),          // per-doc overrides
@@ -32,19 +30,25 @@
   theme-state.update(th)
 
   set document(title: title, author: author)
-  set text(font: th.font, size: th.size, fill: th.ink, ligatures: true)
+  set text(font: th.font, size: th.size, fill: th.ink, ligatures: true,
+    lang: "en", hyphenate: true)
   set par(justify: true, leading: 0.72em, spacing: 1.2em)
   set heading(numbering: "1.1")
-  set math.equation(numbering: "(1)")
+  // Equations are unnumbered by default; number only the ones you reference,
+  // with `numbered(...)` from components. (Numbering every display is clutter.)
+  set math.equation(numbering: none)
 
   // level-1 headings: small caps + a rule, and reset the env counter so
   // numbering restarts each section (Theorem 1.1, 2.1, ...)
   show heading.where(level: 1): it => {
     section-reset()
     block(above: 1.7em, below: 0.85em)[
-      #text(size: 12pt, weight: "bold", fill: th.primary)[#smallcaps(it)]
+      #text(size: 12pt, weight: "bold", fill: th.accent)[#counter(heading).display()]#h(0.6em)#text(size: 12pt, weight: "bold", fill: th.primary)[#smallcaps(it.body)]
       #v(3.5pt)
+      // two-tone underline: a short accent segment over a full hairline
       #line(length: 100%, stroke: 0.4pt + th.rule)
+      #v(-0.4pt)
+      #line(length: 1.8em, stroke: 1.4pt + th.accent)
     ]
   }
   show heading.where(level: 2): it => block(above: 1.1em, below: 0.5em)[
@@ -60,15 +64,27 @@
     header: context {
       if counter(page).get().first() > 1 {
         set text(size: 8.5pt, fill: th.muted)
-        emph(title)
-        v(-7pt)
+        grid(
+          columns: (1fr, auto),
+          align: (left + bottom, right + bottom),
+          emph(title),
+          if tags.len() > 0 { text(tracking: 1pt)[#upper(tags.first())] },
+        )
+        v(2pt)
         line(length: 100%, stroke: 0.5pt + th.rule)
       }
     },
     footer: context {
-      set align(center)
-      set text(size: 8.5pt, fill: th.muted)
-      counter(page).display("1 / 1", both: true)
+      set text(size: 8pt, fill: th.muted)
+      line(length: 100%, stroke: 0.5pt + th.rule)
+      v(3pt)
+      // brand left, page right; author/license live in the colophon, not here
+      grid(
+        columns: (1fr, auto),
+        align: (left + horizon, right + horizon),
+        smallcaps[math-showcase],
+        counter(page).display("1 / 1", both: true),
+      )
     },
   )
 
@@ -79,65 +95,59 @@
     title: title,
     source: source,
     source_url: source_url,
-    difficulty: difficulty,
     date: date,
     tags: tags,
   )) <problem-meta>]
 
-  // title block
-  line(length: 100%, stroke: 1.2pt + th.primary)
-  v(2.5pt)
-  line(length: 100%, stroke: 0.5pt + th.primary)
-  v(11pt)
-  text(size: 20pt, weight: "bold", fill: th.primary)[#title]
+  // title block — editorial header: eyebrow, title, accent mark, meta, tags.
+  // eyebrow: the primary area in spaced caps, accent colour
+  if tags.len() > 0 {
+    text(size: 8.5pt, weight: "bold", fill: th.accent, tracking: 2pt)[
+      #upper(tags.first())
+    ]
+    v(6pt)
+  }
+  text(size: 23pt, weight: "bold", fill: th.primary)[#title]
   if subtitle != none {
-    v(4pt)
+    v(5pt)
     text(size: 12.5pt, fill: th.muted, style: "italic")[#subtitle]
   }
+  // short accent rule — a signature mark under the title
+  v(9pt)
+  line(length: 2.6em, stroke: 2pt + th.accent)
 
-  // byline
+  // meta: author, date, source on one tidy line, pipe-separated
   v(9pt)
   {
-    set text(size: 9.5pt)
-    [by #text(weight: "medium")[#author]]
-    if date != none { text(fill: th.muted)[#h(0.6em)·#h(0.6em)#date] }
-  }
-
-  // source + difficulty
-  v(6pt)
-  {
     set text(size: 9pt, fill: th.muted)
-    let parts = ()
+    let parts = ([by #text(fill: th.primary, weight: "medium")[#author]],)
+    if date != none { parts.push[#date] }
     if source != "" {
       parts.push[Source: #if source_url != none [#link(source_url)[#source]] else [#source]]
     }
-    if difficulty != none {
-      parts.push[Difficulty: #difficulty]
-    }
-    parts.join("  ·  ")
+    parts.join([#h(0.55em)#text(fill: th.rule)[\u{007C}]#h(0.55em)])
   }
 
-  // Tag pills
+  // tag pills
   if tags.len() > 0 {
-    v(6pt)
+    v(8pt)
     box(tags.map(t => _pill(t, th)).join(h(4pt)))
   }
 
-  v(9pt)
+  v(11pt)
   line(length: 100%, stroke: 0.5pt + th.rule)
-
-  // summary
-  if summary != none {
-    v(12pt)
-    block(inset: (left: 1.2em, right: 1.2em))[
-      #text(weight: "bold", fill: th.primary)[Summary. ]
-      #text(style: "italic")[#summary]
-    ]
-  }
 
   v(16pt)
 
   body
+
+  // end-of-solution mark: a small accent diamond between two hairlines
+  v(12pt)
+  align(center)[
+    #box(baseline: -0.1em, line(length: 2em, stroke: 0.5pt + th.rule))
+    #h(0.6em) #text(size: 8pt, fill: th.accent)[#sym.diamond.filled] #h(0.6em)
+    #box(baseline: -0.1em, line(length: 2em, stroke: 0.5pt + th.rule))
+  ]
 
   // prerequisites + further reading
   if prerequisites.len() > 0 or resources.len() > 0 {

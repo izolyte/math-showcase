@@ -21,22 +21,17 @@ require() {
 }
 
 problem_files() {
-  local root="$1" f
+  local root="$1" f base
   shopt -s nullglob
   for f in "$root"/problems/*.typ; do
-    [ "$(basename "$f")" = "_TEMPLATE.typ" ] && continue
+    base="$(basename "$f")"
+    [ "$base" = "_TEMPLATE.typ" ] && continue
+    # Skip Thai siblings: they share their English file's number and would
+    # otherwise show as a duplicate index row.
+    case "$base" in *-th.typ) continue ;; esac
     printf '%s\n' "$f"
   done
   shopt -u nullglob
-}
-
-difficulty_stars() {
-  case "$1" in
-    easy)   printf '★'   ;;
-    medium) printf '★★'  ;;
-    hard)   printf '★★★' ;;
-    *)      printf '%s' "${2--}" ;;
-  esac
 }
 
 plural() { if [ "$1" -eq 1 ]; then printf '%s' "$2"; else printf '%s' "$3"; fi; }
@@ -58,7 +53,6 @@ while IFS= read -r f; do
   title="$(printf '%s' "$json" | jq -r '.title')"
   source="$(printf '%s' "$json" | jq -r '.source // "-"')"
   source_url="$(printf '%s' "$json" | jq -r '.source_url // empty')"
-  difficulty="$(printf '%s' "$json" | jq -r '.difficulty // "-"')"
   date="$(printf '%s' "$json" | jq -r '.date // "-"')"
   topics="$(printf '%s' "$json" | jq -r '(.tags // []) | join(", ")')"
 
@@ -67,15 +61,13 @@ while IFS= read -r f; do
   src_cell="$source"
   [ -n "$source_url" ] && src_cell="[$source]($source_url)"
 
-  diff_cell="$(difficulty_stars "$difficulty")"
-
-  rows="$rows| $num | $title | $topics | $src_cell | $diff_cell | $date |
+  rows="$rows| $num | $title | $topics | $src_cell | $date |
 "
   count=$((count + 1))
 done < <(problem_files "$ROOT")
 
 if [ "$count" -eq 0 ]; then
-  rows="| - | *No problems yet* | | | | |
+  rows="| - | *No problems yet* | | | |
 "
 fi
 
@@ -85,8 +77,8 @@ if [ -z "$uniq_topics" ]; then uniq_topics="-"; fi
 
 problem_word="$(plural "$count" problem problems)"
 
-index_block="| # | Problem | Topics | Source | Difficulty | Solved |
-|---|---------|--------|--------|------------|--------|
+index_block="| # | Problem | Topics | Source | Solved |
+|---|---------|--------|--------|--------|
 $rows"
 
 progress_block="- $count $problem_word solved
