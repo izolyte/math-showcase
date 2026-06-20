@@ -25,9 +25,9 @@ hook, and CI all read it from there, and the tables in the docs are filled in
 from it by `make topics`. So to add a topic, edit `topics.txt` and run
 `make topics` - don't edit the table below by hand (CI fails if it drifts).
 
+<!-- TOPICS:START table (generated from topics.txt by `make topics`) -->
 | Prefix | Topic |
 |--------|-------|
-<!-- TOPICS:START table (generated from topics.txt by `make topics`) -->
 | `calc` | Calculus |
 | `linalg` | Linear Algebra |
 | `alg` | Abstract Algebra |

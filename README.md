@@ -18,9 +18,9 @@ Every problem has one primary topic. The prefix is the first part of the file
 name; problems that span a few areas pick one primary topic and put the rest in
 their tags.
 
+<!-- TOPICS:START table (generated from topics.txt by `make topics`) -->
 | Prefix | Topic |
 |--------|-------|
-<!-- TOPICS:START table (generated from topics.txt by `make topics`) -->
 | `calc` | Calculus |
 | `linalg` | Linear Algebra |
 | `alg` | Abstract Algebra |

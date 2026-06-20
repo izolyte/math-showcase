@@ -27,7 +27,9 @@ TARGETS=(
 # Render the three block formats from topics.txt.
 parse() { awk 'NF && $1 !~ /^#/ { name=$0; sub(/^[ \t]*[^ \t]+[ \t]+/, "", name); print $1 "\t" name }' "$TOPICS"; }
 
-table_block=""; dropdown_block=""; prefixes=""
+table_block="| Prefix | Topic |
+|--------|-------|
+"; dropdown_block=""; prefixes=""
 while IFS=$'\t' read -r prefix name; do
   table_block="$table_block| \`$prefix\` | $name |
 "
