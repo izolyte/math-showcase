@@ -112,21 +112,17 @@
     v(5pt)
     text(size: 12.5pt, fill: th.muted, style: "italic")[#subtitle]
   }
+  // source attribution — shown prominently under the title when present
+  if source != "" {
+    v(6pt)
+    text(size: 10.5pt, fill: th.muted, style: "italic")[
+      #if source_url != none [#link(source_url)[#source]] else [#source]
+    ]
+  }
+
   // short accent rule — a signature mark under the title
   v(9pt)
   line(length: 2.6em, stroke: 2pt + th.accent)
-
-  // meta: author, date, source on one tidy line, pipe-separated
-  v(9pt)
-  {
-    set text(size: 9pt, fill: th.muted)
-    let parts = ([by #text(fill: th.primary, weight: "medium")[#author]],)
-    if date != none { parts.push[#date] }
-    if source != "" {
-      parts.push[Source: #if source_url != none [#link(source_url)[#source]] else [#source]]
-    }
-    parts.join([#h(0.55em)#text(fill: th.rule)[\u{007C}]#h(0.55em)])
-  }
 
   // tag pills
   if tags.len() > 0 {
