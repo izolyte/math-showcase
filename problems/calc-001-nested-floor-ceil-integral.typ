@@ -217,7 +217,7 @@ The total sum is $2 + 1 + 0 + 0 + 1 + 0 = 4 = 2 ceil(1.7)$. #sym.checkmark
 
 = Reflection and Deeper Perspectives
 
-The elegance of this problem lies in the structural asymmetry between the terms $floor(lr(\{ x \}))$ and $ceil(lr(\{ x \}))$ which superficially resemble a symmetric pair. Because the codomain of the fractional part function is restricted to $[0, 1)$, its floor is identically zero everywhere, whereas its ceiling evaluates to $1$ almost everywhere except at integer coordinates. If one misinterprets the sixth term as being symmetric to the third, the resulting calculation collapses to the deceptively elegant but #emph[incorrect] answer of $1\,000\,000$, which serves as the #emph[primary trap] of the question.
+The elegance of this problem lies in the structural asymmetry between the terms $floor(lr(\{ x \}))$ and $ceil(lr(\{ x \}))$ which superficially resemble a symmetric pair. Because the codomain of the fractional part function is restricted to $[0, 1)$, its floor is identically zero everywhere, whereas its ceiling evaluates to $1$ almost everywhere except at integer coordinates. If one misinterprets the fifth term as being symmetric to the third, the resulting calculation collapses to the deceptively elegant but #emph[incorrect] answer of $1\,000\,000$, which serves as the #emph[primary trap] of the question.
 
 #diagram(caption: [
   If $ceil(lr(\{x\}))$ is mistakenly set to $0$, the integrand becomes $2k+1$ (gray) instead of $2k+2$. The shaded strips (height $1$ per unit interval) are the missing $1000$.
@@ -246,7 +246,7 @@ The elegance of this problem lies in the structural asymmetry between the terms 
 
 From a rigorous analytical perspective, the integrand does not equal $2 ceil(x)$ at integer boundary points, since $ceil(lr(\{ x \})) = 0$ and $ceil(x) = floor(x)$ at those locations. However, because these two bounded functions differ only on a finite set—which constitutes a set of #emph[measure zero]—their definite Riemann integrals are identical. Thus, the piecewise staircase methodology remains mathematically sound.
 
-In the general case, the integral can be elegantly formulated as:
+In the general case (for integers $N gt.eq 0$), the integral can be elegantly formulated as:
 $ integral_0^N (dots.c) dif x = N(N+1) = 2 dot (N(N+1))/2, $
 which corresponds to twice the $N$-th triangular number. The specific solution of $1\,001\,000$ given in the problem statement is simply the particular realization of this general rule evaluated at $N = 1000$.
 
