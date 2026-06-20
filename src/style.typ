@@ -24,8 +24,8 @@
   // Latin + math glyphs resolve from the first two; the Thai serif faces only
   // kick in per-glyph for Thai text (bilingual problem files). Norasi ships in
   // the `fonts-thai-tlwg` package CI installs; Leelawadee / Tahoma cover local
-  // Windows builds. A missing face in this list is skipped with a harmless
-  // warning, never a compile failure.
+  // Windows builds. A missing face is silently substituted (fallback enabled by
+  // default); glyphs with no match render as tofu boxes.
   font: ("New Computer Modern", "Libertinus Serif", "Norasi", "Leelawadee", "Tahoma"),
   size: 11pt,
 )

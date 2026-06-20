@@ -3,7 +3,7 @@
 //
 // Before committing:
 //   - compiles cleanly (make compile P=<topic>-NNN)
-//   - every imported theorem/rule/technique is cited (cite(name, url:)); no [ref?]
+//   - every imported theorem/rule/technique is cited (cite(name, url:) or cite(name, ref:)); no [ref?]
 //   - no skipped steps — a reader never has to ask "how did that follow?"
 //   - a diagram is included wherever the math is visual
 //   - sections in order, only the ones the problem earns (see CONVENTIONS)

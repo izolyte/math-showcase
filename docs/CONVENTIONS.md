@@ -66,13 +66,13 @@ A problem can have a Thai-language sibling. It is a separate file (one language
 per file, like one problem per file) that **shares the English file's number**
 and appends `-th` to the slug:
 
-```
+```text
 calc-001-gamma-integral.typ        English (primary, write first)
 calc-001-gamma-integral-th.typ     Thai sibling, same problem, same number
 ```
 
 The `-th` form still matches the file-name pattern (`-th` is part of the slug),
-so no script or CI change is needed. The Thai file does **not** get a new
+so no file-name validation change is needed. The Thai file does **not** get a new
 number from `make new`; copy the English file and rename it by hand. Thai
 rendering relies on the Thai serif faces in the font fallback
 (see [`../src/style.typ`](../src/style.typ)); CI installs them via

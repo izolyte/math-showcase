@@ -9,7 +9,7 @@ Start from [`../problems/_TEMPLATE.typ`](../problems/_TEMPLATE.typ).
 
 Eight sections, always in this order when present:
 
-```
+```text
 Problem Statement → Answer → Setup & Notation → Idea →
 Solution → Verification → Reflection → Application
 ```
@@ -100,7 +100,7 @@ Write English first.
 
 Math is always Typst `$…$` — never plain-text a formula. Equations are
 unnumbered by default; wrap only the ones you reference back in `numbered(...)`.
-Titles and the summary field are plain strings — no `$math$`.
+Titles are plain strings — no `$math$`.
 
 ## Before committing
 
