@@ -44,7 +44,7 @@ topics_all=""
 
 while IFS= read -r f; do
   base="$(basename "$f")"
-  num="$(printf '%s' "$base" | sed -E 's/^[a-z]+-([0-9]{3})-.*/\1/')"
+  num="$(printf '%s' "$base" | sed -E 's/^([a-z]+-[0-9]{3})-.*/\1/')"
 
   json="$(typst query --root "$ROOT" "$f" '<problem-meta>' --field value --one 2>/dev/null)" || {
     echo "error: failed to query $base (does it compile?)" >&2; exit 1;

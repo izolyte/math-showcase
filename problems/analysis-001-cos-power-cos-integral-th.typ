@@ -243,7 +243,8 @@ $ F(alpha, beta) :=
   #cite("เอกลักษณ์ผลคูณ–ผลรวม",
     url: "https://en.wikipedia.org/wiki/List_of_trigonometric_identities#Product-to-sum_and_sum-to-product_identities")])[
 
-  กำหนดจำนวนเต็ม $n gt.eq 1$ และสมมติว่า $I(n-1, gamma) = F(n-1, gamma)$ สำหรับทุก $gamma in RR$
+  กำหนดจำนวนเต็ม $n gt.eq 1$ และสมมติว่า $I(n-1, gamma) = F(n-1, gamma)$ สำหรับทุก $gamma > n - 1$
+  (สมมติฐาน induction; ครอบคลุม $gamma = beta plus.minus 1$ เพราะ $beta > n$ นำไปสู่ $beta - 1 > n - 1$)
   ตั้ง
   $ u = cos^n(x), quad dif v = cos(beta x) dif x $
   ดังนั้น

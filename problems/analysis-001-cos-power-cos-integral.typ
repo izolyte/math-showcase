@@ -254,7 +254,8 @@ $cos(beta x)$, whose sign changes partially cancel the accumulated area.
     url: "https://en.wikipedia.org/wiki/List_of_trigonometric_identities#Product-to-sum_and_sum-to-product_identities")])[
 
   Fix an integer $n gt.eq 1$ and assume $I(n-1, gamma) = F(n-1, gamma)$ for all
-  $gamma in RR$ (the inductive hypothesis). We set
+  $gamma > n - 1$ (the inductive hypothesis; this covers $gamma = beta plus.minus 1$
+  since $beta > n$ implies $beta - 1 > n - 1$). We set
   $ u = cos^n(x), quad dif v = cos(beta x) dif x, $
   so that
   $ dif u = -n cos^(n-1)(x) sin(x) dif x, quad v = frac(sin(beta x), beta). $
